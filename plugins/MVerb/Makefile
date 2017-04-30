@@ -31,19 +31,32 @@ ifeq ($(HAVE_JACK),true)
 TARGETS += jack
 endif
 
+ifeq ($(BUILD_LADSPA),true)
+ifeq ($(LINUX),true)
 TARGETS += ladspa
-TARGETS += vst
+endif
+endif
 
+ifeq ($(BUILD_DSSI),true)
+ifeq ($(LINUX),true)
+TARGETS += dssi_dsp
 ifeq ($(HAVE_DGL),true)
 ifeq ($(HAVE_LIBLO),true)
-TARGETS += dssi
+TARGETS += dssi_ui
+endif
+endif
 endif
 endif
 
+ifeq ($(BUILD_LV2),true)
+TARGETS += lv2_dsp
 ifeq ($(HAVE_DGL),true)
 TARGETS += lv2_sep
-else
-TARGETS += lv2_dsp
+endif
+endif
+
+ifeq ($(BUILD_VST),true)
+TARGETS += vst
 endif
 
 all: $(TARGETS)
